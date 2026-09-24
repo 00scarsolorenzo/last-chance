@@ -110,7 +110,7 @@
   <!-- SCHERMATA 1: Domanda con tasto No sfuggente -->
   <div class="card active" id="step-1">
     <div class="avatar">🐶</div>
-    <h2>🌸 Vuoi uscire con me? 🌸</h2>
+    <h2>🌸 Vuoi uscire con me o anche solo parlarmi? 🌸</h2>
     <div class="btn-container" id="arena">
       <button class="btn" onclick="nextStep(2)">Sì! 💖</button>
       <button class="btn btn-secondary" id="no-btn" onmouseover="fleeButton()" onclick="fleeButton()">No 💔</button>
@@ -147,15 +147,15 @@
 
   <!-- SCHERMATA 4: Scelta del Cibo -->
   <div class="card" id="step-4">
-    <h2>🍽️ Cosa andiamo a mangiare?</h2>
+    <h2>🍽️ Cosa andiamo a mangiare/bere?</h2>
     <p>Scegli la vibe della serata</p>
     <div class="grid">
       <div class="food-card" onclick="selectFood(this, 'Pizza')"><span>🍕</span><label>Pizza</label></div>
       <div class="food-card" onclick="selectFood(this, 'Sushi')"><span>🍣</span><label>Sushi</label></div>
       <div class="food-card" onclick="selectFood(this, 'Burgers')"><span>🍔</span><label>Burger</label></div>
       <div class="food-card" onclick="selectFood(this, 'Pasta')"><span>🍝</span><label>Pasta</label></div>
-      <div class="food-card" onclick="selectFood(this, 'Tacos')"><span>🌮</span><label>Tacos</label></div>
-      <div class="food-card" onclick="selectFood(this, 'Ramen')"><span>🍜</span><label>Ramen</label></div>
+      <div class="food-card" onclick="selectFood(this, 'Birra')"><span>🍻</span><label>Birra</label></div>
+      <div class="food-card" onclick="selectFood(this, 'Vino')"><span>🍷</span><label>Vino</label></div>
     </div>
     <button class="btn" onclick="nextStep(5)">Continua ➔</button>
   </div>
