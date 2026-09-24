@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Una domanda importante...</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body {
+      background-color: #f7e8ee;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 24px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      position: relative;
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    .card.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .avatar { font-size: 64px; margin-bottom: 12px; }
+    h2 { color: #d63384; font-size: 24px; margin-bottom: 16px; font-weight: 700; }
+    p { color: #666; font-size: 15px; margin-bottom: 24px; line-height: 1.4; }
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      min-height: 50px;
+      align-items: center;
+      position: relative;
+    }
+    .btn {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 99px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+    .btn:hover { background-color: #e05297; }
+    .btn-secondary {
+      background-color: #e9ecef;
+      color: #6c757d;
+      position: relative;
+    }
+    .btn-secondary:hover { background-color: #dee2e6; }
+    .form-group { text-align: left; margin-bottom: 16px; }
+    label { display: block; font-size: 14px; font-weight: 600; color: #495057; margin-bottom: 6px; }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ced4da;
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .food-card {
+      border: 2px solid #f1f3f5;
+      border-radius: 16px;
+      padding: 12px 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .food-card:hover { border-color: #ff69b4; transform: translateY(-2px); }
+    .food-card.selected { border-color: #ff69b4; background-color: #fff0f6; }
+    .food-card span { font-size: 28px; display: block; margin-bottom: 4px; }
+    .food-card label { font-size: 13px; color: #333; cursor: pointer; }
+    .price-tag {
+      font-size: 32px;
+      color: #d63384;
+      font-weight: 800;
+      margin: 12px 0;
+    }
+    .badge {
+      font-size: 12px;
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      padding: 4px 10px;
+      border-radius: 8px;
+      color: #868e96;
+      display: inline-block;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SCHERMATA 1: Domanda con tasto No sfuggente -->
+  <div class="card active" id="step-1">
+    <div class="avatar">🐶</div>
+    <h2>🌸 Vuoi uscire con me? 🌸</h2>
+    <div class="btn-container" id="arena">
+      <button class="btn" onclick="nextStep(2)">Sì! 💖</button>
+      <button class="btn btn-secondary" id="no-btn" onmouseover="fleeButton()" onclick="fleeButton()">No 💔</button>
+    </div>
+  </div>
+
+  <!-- SCHERMATA 2: Reazione -->
+  <div class="card" id="step-2">
+    <div class="avatar">🥳</div>
+    <h2>Aspetta, hai detto davvero di SÌ?! 🎉</h2>
+    <p>Non ero psicologicamente preparato... andiamo a fissare il giorno!</p>
+    <button class="btn" onclick="nextStep(3)">Va bene, andiamo! ➔</button>
+  </div>
+
+  <!-- SCHERMATA 3: Data e Ora -->
+  <div class="card" id="step-3">
+    <h2>📅 Quando sei libera?</h2>
+    <div class="form-group">
+      <label>Scegli una data</label>
+      <input type="date" id="date-input" />
+    </div>
+    <div class="form-group">
+      <label>Scegli un orario</label>
+      <select id="time-input">
+        <option value="12:30">12:30</option>
+        <option value="19:30">19:30</option>
+        <option value="20:00" selected>20:00</option>
+        <option value="20:30">20:30</option>
+        <option value="21:00">21:00</option>
+      </select>
+    </div>
+    <button class="btn" onclick="nextStep(4)">Fissa la data ✨</button>
+  </div>
+
+  <!-- SCHERMATA 4: Scelta del Cibo -->
+  <div class="card" id="step-4">
+    <h2>🍽️ Cosa andiamo a mangiare?</h2>
+    <p>Scegli la vibe della serata</p>
+    <div class="grid">
+      <div class="food-card" onclick="selectFood(this, 'Pizza')"><span>🍕</span><label>Pizza</label></div>
+      <div class="food-card" onclick="selectFood(this, 'Sushi')"><span>🍣</span><label>Sushi</label></div>
+      <div class="food-card" onclick="selectFood(this, 'Burgers')"><span>🍔</span><label>Burger</label></div>
+      <div class="food-card" onclick="selectFood(this, 'Pasta')"><span>🍝</span><label>Pasta</label></div>
+      <div class="food-card" onclick="selectFood(this, 'Tacos')"><span>🌮</span><label>Tacos</label></div>
+      <div class="food-card" onclick="selectFood(this, 'Ramen')"><span>🍜</span><label>Ramen</label></div>
+    </div>
+    <button class="btn" onclick="nextStep(5)">Continua ➔</button>
+  </div>
+
+  <!-- SCHERMATA 5: Conferma -->
+  <div class="card" id="step-5">
+    <div class="avatar">🚗</div>
+    <h2>Fatto! Fatti trovare pronta.</h2>
+    <p>Passo a prenderti io! Preparati per una bella serata.</p>
+    <button class="btn" onclick="nextStep(6)">Accetto l'invito 💌</button>
+  </div>
+
+  <!-- SCHERMATA 6: Finto Paywall scherzoso -->
+  <div class="card" id="step-6">
+    <div class="avatar">💳</div>
+    <h2>Una piccola formalità...</h2>
+    <p>Per confermare definitivamente l'appuntamento, completa la transazione:</p>
+    <div class="price-tag">499 €</div>
+    <span class="badge">Date Agreement™ • Non rimborsabile • Vale ogni centesimo</span>
+    <div style="margin-top: 24px;">
+      <button class="btn" onclick="alert('🎉 Scherzo! Offro tutto io. A presto!')">Paga 499 € & Conferma 💖</button>
+    </div>
+  </div>
+
+  <script>
+    function nextStep(step) {
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+      document.getElementById('step-' + step).classList.add('active');
+    }
+
+    function fleeButton() {
+      const btn = document.getElementById('no-btn');
+      const randomX = (Math.random() - 0.5) * 200;
+      const randomY = (Math.random() - 0.5) * 120;
+      btn.style.position = 'absolute';
+      btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    function selectFood(el, food) {
+      document.querySelectorAll('.food-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+  </script>
+</body>
+</html>
